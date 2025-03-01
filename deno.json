@@ -20,7 +20,7 @@
     "include": [
       "mod.ts",
       "LICENSE",
-      "README.adoc"
+      "README.md"
     ]
   }
 }
