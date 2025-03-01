@@ -1,52 +1,52 @@
-= Logosaurus (A Simple Logger)
+# Logosaurus (A Simple Logger)
 
 JSON formatted logging for Deno (and others!).
 
-== Overview
+## Overview
 
 Logosaurus is a simple stdout logger that forces a minimum amount of convention
 while otherwise leaving applications to determine how to best use logs.
 
-=== Why build another log tool?
+### Why build another log tool?
 
 The discussion on the future of @std/log and what logging looks like in Deno
 is interesting and can be found here:
-https://github.com/denoland/std/issues/6124[github.com/denoland/std/issues/6124]
+[github.com/denoland/std/issues/6124](https://github.com/denoland/std/issues/6124)
 For this project, I wanted to experiment with what a minimal logger might
 look like for the Deno community.
 
 For my part, I needed a logger (that wouldn't be soon deprecated!) that provided
-the ability to print JSON-formatted logs with a relatively ergonomic API.  To
+the ability to print JSON-formatted logs with a relatively ergonomic API. To
 me, that means exposing `debug()` or `error()` types of methods, along with
 enough bolts-included formatting so that I don't have to worry about the data
 I am sending to it.
 
 Based on my work experience, I find that enforcing at least some minimal amount
-of standards on logs are necessary for them to be useful.  There are a
+of standards on logs are necessary for them to be useful. There are a
 surprising amount of rabbit trails to be found when teams are left to establish
 their own logging standards.
 
 Also, I can't believe this name wasn't already taken. :-P
 
-== Getting Started
+## Getting Started
 
-=== Overview
+### Overview
 
 Logosaurus focuses on three main required fields for every log:
 
-* *Level* - e.g. `debug`, `info`, or `error`.
+* **Level** - e.g. `debug`, `info`, or `error`.
   * This is used to communicate how important the message is, or, in the case
     of an Error, the severity.
-* *Namespace* - e.g. `controller.users`, `my-app.worker.compress` or `my-app.sql`.
+* **Namespace** - e.g. `controller.users`, `my-app.worker.compress` or `my-app.sql`.
   * These can be standardized however the codebase finds it most appropriate,
     but it is suggested that you use reverse domain name notation.
   * This field is intended to be used for filtering logs, especially as teams
     are trying to debug a problem.
-* *Message* - e.g. `failed to parse request body` or `running query`
+* **Message** - e.g. `failed to parse request body` or `running query`
   * Should be human readable, and should not include fields or variables.
   * A message should not include variables; those should be included as context.
 
-Additionally, log messages may include *Context*: a rich set of data with
+Additionally, log messages may include **Context**: a rich set of data with
 meaningful values for interpretting or enriching the log.
 
 * Teams should seek to standardize on how they name and format the shape of
@@ -56,12 +56,11 @@ meaningful values for interpretting or enriching the log.
     include a parameterized query along with the parameters.
 * Be sure to exclude values from logs that are sensitive: passwords, keys, etc.
 
-=== Quick Start
+### Quick Start
 
 Import the `Logger` class and create an instance of it.
 
-[source,typescript]
-----
+```typescript
 import { Logger } from "@funnylookinhat/logosaurus";
 
 const logger = new Logger();
@@ -72,14 +71,13 @@ logger.info("my-app.startup", "Application starting up", {
     port: 8080,
   }
 });
-----
+```
 
 By default, the minimum log level is *trace* - this is likely more verbose than
 desired for most deployed environments.  As an example, you can exclude logs
 below a given level.
 
-[source,typescript]
-----
+```typescript
 import { Logger } from "@funnylookinhat/logosaurus";
 
 const logger = new Logger({
@@ -87,12 +85,11 @@ const logger = new Logger({
   // and "fatal".
   minLogLevel: "info",
 });
-----
+```
 
 Consider using environment variables to configure your logger.
 
-[source,typescript]
-----
+```typescript
 import { Logger, LOG_LEVELS, type LogLevel } from "@funnylookinhat/logosaurus";
 
 // Type guard to check if the environment provides a valid LogLevel
@@ -107,29 +104,29 @@ const configuredMinLogLevel = ((): LogLevel => {
 const logger = new Logger({
   minLogLevel: configuredMinLogLevel,
 });
-----
+```
 
-=== Configuration
+### Configuration
 
-See the *LoggerConfiguration* type for full documentation.
+See the **LoggerConfiguration** type for full documentation.
 
 Accepted configuration includes:
 
-* *minLogLevel* - The minimum level of logs to output.
+* **minLogLevel** - The minimum level of logs to output.
   * Default: `"trace"`
   * Suggested configuration for deployments: `info`
-* *includeTimestamp* - Whether or not to append a ISO8601 timestamp value to
+* **includeTimestamp** - Whether or not to append a ISO8601 timestamp value to
   logs.
   * Default: `true`
   * Suggested configuration: `true`
   * Note: if applications wish to have their own timestamp format, they should
     set this to `false` and add their own value by providing their own
     `formatLog` method.
-* *formatLog* - A method to format logs for output.
+* **formatLog** - A method to format logs for output.
   * Default: Will serialize with the provided `jsonValueSerializer` and output
     as a single line of JSON.
   * Suggestion: do not override unless necessary.
-* *jsonValueSerializer* - A method to serialize values for JSON.stringify.
+* **jsonValueSerializer** - A method to serialize values for JSON.stringify.
   * Default: Will do a best-guess conversion of all non-native JSON types to
     strings.
   * Suggestion: do not override unless necessary.
@@ -137,18 +134,18 @@ Accepted configuration includes:
 In almost all cases, applications will need to only provide a `minLogLevel`
 value.
 
-=== Suggested Levels
+### Suggested Levels
 
 Here are suggested use cases for each log level:
 
-* *trace* - Very detailed information, useful for debugging specific issues.
+* **trace** - Very detailed information, useful for debugging specific issues.
   These should be rarely required to be enabled.
   * Function entry/exit points
   * Network request/response details
   * SQL queries
   * Example: `logger.trace("my-app.sql", "Executing query", { sql, params })`
 
-* *debug* - Diagnostic information that is more coarse than trace.  In most
+* **debug** - Diagnostic information that is more coarse than trace.  In most
   cases, this should provide enough information to understand why an application
   is behaving unexpectedly.
   * Cache hits/misses
@@ -156,27 +153,27 @@ Here are suggested use cases for each log level:
   * State changes
   * Example: `logger.debug("my-app.cache", "Cache miss for key", { key })`
 
-* *info* - Normal application behavior and milestones.  These are things that
+* **info** - Normal application behavior and milestones.  These are things that
   would not be overly verbose if logged in production.
   * Application startup/shutdown
   * Configuration values at startup
   * Scheduled task execution
   * Example: `logger.info("my-app.lifecycle", "Application started successfully", { version })`
 
-* *warn* - Non-ideal situations that the application can handle.
+* **warn** - Non-ideal situations that the application can handle.
   * Resource usage approaching limits
   * Retrying operations
   * Errors from dependent services that can be handled.
   * Example: `logger.warn("my-app.service.catalog", "Could not fetch item from catalog service", { id })`
 
-* *error* - Issues that need attention but don't stop the application.
+* **error** - Issues that need attention but don't stop the application.
   * Failed operations that have fallbacks
   * Periodic tasks that are failing to run.
   * Queues backing up.
   * Validation failures
   * Example: `logger.error("my-app.widget-processor", "Queue is unable to be processed", { queueDepth, error })`
 
-* *fatal* - Severe issues that prevent normal operation.  These likely indicate
+* **fatal** - Severe issues that prevent normal operation.  These likely indicate
   that the application is unable to work in any capacity.  It may be failing
   to startup at all, or is exiting immediately.
   * Database connection issues
@@ -186,7 +183,7 @@ Here are suggested use cases for each log level:
   * Example: `logger.fatal("my-app.db", "Could not connect to database", { error })`
   * Example: `logger.fatal("my-app.lifecycle", "Invalid configuration - missing port", { config })`
 
-=== Parsing Logs for Local Development
+### Parsing Logs for Local Development
 
 _Coming soon..._
 
