@@ -3,7 +3,8 @@
   "version": "0.0.1",
   "exports": "./mod.ts",
   "tasks": {
-    "generate-release": "deno run --allow-all scripts/generate-release.ts"
+    "generate-release": "deno run --allow-all scripts/generate-release.ts",
+    "test": "deno test"
   },
   "imports": {
     "@octokit/rest": "npm:@octokit/rest@^21.1.1",
