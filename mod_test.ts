@@ -8,7 +8,7 @@ import {
 import { Logger, type LogObject } from "./mod.ts";
 
 function setupTest(): {
-  consoleLogSpy: MethodSpy<Console, any[], void>;
+  consoleLogSpy: MethodSpy<Console, string[], void>;
   getNextConsoleMessage: () => string | undefined;
 } {
   const consoleLogSpy = spy(console, "log");
