@@ -1,0 +1,37 @@
+name: Generate Release on Merge
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  generate-release:
+    name: Generate Release
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      id-token: write
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Deno Environment
+        uses: denoland/setup-deno@v2
+        with:
+          deno-version: v2.x
+
+      - name: Lint Check
+        run: deno lint
+
+      - name: Format Check
+        run: deno fmt --check
+
+      - name: Execute Tests
+        run: deno task test
+
+      - name: Generate Release
+        run: deno task generate-release
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
