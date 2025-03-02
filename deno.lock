@@ -3,19 +3,15 @@
   "specifiers": {
     "jsr:@std/assert@1": "1.0.11",
     "jsr:@std/assert@^1.0.10": "1.0.11",
-    "jsr:@std/cli@*": "1.0.13",
+    "jsr:@std/async@^1.0.9": "1.0.10",
     "jsr:@std/data-structures@^1.0.6": "1.0.6",
     "jsr:@std/fs@^1.0.9": "1.0.13",
     "jsr:@std/internal@^1.0.5": "1.0.5",
-    "jsr:@std/path@*": "1.0.8",
     "jsr:@std/path@^1.0.8": "1.0.8",
-    "jsr:@std/semver@*": "1.0.4",
     "jsr:@std/semver@^1.0.4": "1.0.4",
     "jsr:@std/testing@^1.0.9": "1.0.9",
     "npm:@octokit/rest@^21.1.1": "21.1.1_@octokit+core@6.1.4",
-    "npm:conventional-changelog@*": "6.0.0",
     "npm:conventional-changelog@6": "6.0.0",
-    "npm:conventional-recommended-bump@*": "11.0.0_conventional-commits-filter@5.0.0_conventional-commits-parser@6.1.0",
     "npm:conventional-recommended-bump@11": "11.0.0_conventional-commits-filter@5.0.0_conventional-commits-parser@6.1.0",
     "npm:simple-git@^3.27.0": "3.27.0"
   },
@@ -26,8 +22,8 @@
         "jsr:@std/internal"
       ]
     },
-    "@std/cli@1.0.13": {
-      "integrity": "5db2d95ab2dca3bca9fb6ad3c19908c314e93d6391c8b026725e4892d4615a69"
+    "@std/async@1.0.10": {
+      "integrity": "2ff1b1c7d33d1416159989b0f69e59ec7ee8cb58510df01e454def2108b3dbec"
     },
     "@std/data-structures@1.0.6": {
       "integrity": "76a7fd8080c66604c0496220a791860492ab21a04a63a969c0b9a0609bbbb760"
@@ -35,7 +31,7 @@
     "@std/fs@1.0.13": {
       "integrity": "756d3ff0ade91c9e72b228e8012b6ff00c3d4a4ac9c642c4dac083536bf6c605",
       "dependencies": [
-        "jsr:@std/path@^1.0.8"
+        "jsr:@std/path"
       ]
     },
     "@std/internal@1.0.5": {
@@ -51,10 +47,11 @@
       "integrity": "9bdd4ac07cb13e7594ac30e90f6ceef7254ac83a9aeaa089be0008f33aab5cd4",
       "dependencies": [
         "jsr:@std/assert@^1.0.10",
+        "jsr:@std/async",
         "jsr:@std/data-structures",
         "jsr:@std/fs",
         "jsr:@std/internal",
-        "jsr:@std/path@^1.0.8"
+        "jsr:@std/path"
       ]
     }
   },
@@ -70,11 +67,11 @@
     "@babel/helper-validator-identifier@7.25.9": {
       "integrity": "sha512-Ed61U6XJc3CVRfkERJWDz4dJwKe7iLmmJsbOGu9wSloNSFttHV0I8g6UAgb7qnK5ly5bGLPd4oXZlxCdANBOWQ=="
     },
-    "@conventional-changelog/git-client@1.0.1_conventional-commits-parser@6.0.0": {
+    "@conventional-changelog/git-client@1.0.1_conventional-commits-parser@6.1.0": {
       "integrity": "sha512-PJEqBwAleffCMETaVm/fUgHldzBE35JFk3/9LL6NUA5EXa3qednu+UT6M7E5iBu3zIQZCULYIiZ90fBYHt6xUw==",
       "dependencies": [
         "@types/semver",
-        "conventional-commits-parser@6.0.0",
+        "conventional-commits-parser",
         "semver"
       ]
     },
@@ -82,7 +79,7 @@
       "integrity": "sha512-6lD/xsDwx5xQ1dLgL1Ud47MHatuJpwVXbyHWZhlIUqRRTWTp1jRpwdk1roEaf752WA6LAbZY7elVkRQPHofUHA==",
       "dependencies": [
         "conventional-commits-filter",
-        "conventional-commits-parser@6.1.0",
+        "conventional-commits-parser",
         "semver"
       ]
     },
@@ -131,8 +128,8 @@
     "@octokit/openapi-types@23.0.1": {
       "integrity": "sha512-izFjMJ1sir0jn0ldEKhZ7xegCTj/ObmEDlEfpFrx4k/JyZSMRHbO3/rBwgE7f3m2DHt+RrNGIVw4wSmwnm3t/g=="
     },
-    "@octokit/plugin-paginate-rest@11.4.2_@octokit+core@6.1.4": {
-      "integrity": "sha512-BXJ7XPCTDXFF+wxcg/zscfgw2O/iDPtNSkwwR1W1W5c4Mb3zav/M2XvxQ23nVmKj7jpweB4g8viMeCQdm7LMVA==",
+    "@octokit/plugin-paginate-rest@11.4.3_@octokit+core@6.1.4": {
+      "integrity": "sha512-tBXaAbXkqVJlRoA/zQVe9mUdb8rScmivqtpv3ovsC5xhje/a+NOCivs7eUhWBwCApJVsR4G5HMeaLbq7PxqZGA==",
       "dependencies": [
         "@octokit/core",
         "@octokit/types"
@@ -222,13 +219,13 @@
         "compare-func"
       ]
     },
-    "conventional-changelog-core@8.0.0_conventional-commits-parser@6.0.0": {
+    "conventional-changelog-core@8.0.0_conventional-commits-parser@6.1.0": {
       "integrity": "sha512-EATUx5y9xewpEe10UEGNpbSHRC6cVZgO+hXQjofMqpy+gFIrcGvH3Fl6yk2VFKh7m+ffenup2N7SZJYpyD9evw==",
       "dependencies": [
         "@hutson/parse-repository-url",
         "add-stream",
         "conventional-changelog-writer",
-        "conventional-commits-parser@6.0.0",
+        "conventional-commits-parser",
         "git-raw-commits",
         "git-semver-tags",
         "hosted-git-info",
@@ -258,10 +255,9 @@
     "conventional-changelog-preset-loader@5.0.0": {
       "integrity": "sha512-SetDSntXLk8Jh1NOAl1Gu5uLiCNSYenB5tm0YVeZKePRIgDW9lQImromTwLa3c/Gae298tsgOM+/CYT9XAl0NA=="
     },
-    "conventional-changelog-writer@8.0.0": {
-      "integrity": "sha512-TQcoYGRatlAnT2qEWDON/XSfnVG38JzA7E0wcGScu7RElQBkg9WWgZd1peCWFcWDh1xfb2CfsrcvOn1bbSzztA==",
+    "conventional-changelog-writer@8.0.1": {
+      "integrity": "sha512-hlqcy3xHred2gyYg/zXSMXraY2mjAYYo0msUCpK+BGyaVJMFCKWVXPIHiaacGO2GGp13kvHWXFhYmxT4QQqW3Q==",
       "dependencies": [
-        "@types/semver",
         "conventional-commits-filter",
         "handlebars",
         "meow",
@@ -287,12 +283,6 @@
     "conventional-commits-filter@5.0.0": {
       "integrity": "sha512-tQMagCOC59EVgNZcC5zl7XqO30Wki9i9J3acbUvkaosCT6JX3EeFwJD7Qqp4MCikRnzS18WXV3BLIQ66ytu6+Q=="
     },
-    "conventional-commits-parser@6.0.0": {
-      "integrity": "sha512-TbsINLp48XeMXR8EvGjTnKGsZqBemisPoyWESlpRyR8lif0lcwzqz+NMtYSj1ooF/WYjSuu7wX0CtdeeMEQAmA==",
-      "dependencies": [
-        "meow"
-      ]
-    },
     "conventional-commits-parser@6.1.0": {
       "integrity": "sha512-5nxDo7TwKB5InYBl4ZC//1g9GRwB/F3TXOGR9hgUjMGfvSP4Vu5NkpNro2+1+TIEy1vwxApl5ircECr2ri5JIw==",
       "dependencies": [
@@ -305,7 +295,7 @@
         "@conventional-changelog/git-client@2.0.0_conventional-commits-filter@5.0.0_conventional-commits-parser@6.1.0",
         "conventional-changelog-preset-loader",
         "conventional-commits-filter",
-        "conventional-commits-parser@6.1.0",
+        "conventional-commits-parser",
         "meow"
       ]
     },
@@ -324,20 +314,20 @@
     "fast-content-type-parse@2.0.1": {
       "integrity": "sha512-nGqtvLrj5w0naR6tDPfB4cUmYCqouzyQiz6C5y/LtcDllJdrcc6WaWW6iXyIIOErTa/XRybj28aasdn4LkVk6Q=="
     },
-    "find-up-simple@1.0.0": {
-      "integrity": "sha512-q7Us7kcjj2VMePAa02hDAF6d+MzsdsAWEwYyOpwUtlerRBkOEPBCRZrAV4XfcSN8fHAgaD0hP7miwoay6DCprw=="
+    "find-up-simple@1.0.1": {
+      "integrity": "sha512-afd4O7zpqHeRyg4PfDQsXmlDe2PfdHtJt6Akt8jOWaApLOZk5JXs6VMR29lz03pRe9mpykrRCYIYxaJYcfpncQ=="
     },
-    "git-raw-commits@5.0.0_conventional-commits-parser@6.0.0": {
+    "git-raw-commits@5.0.0_conventional-commits-parser@6.1.0": {
       "integrity": "sha512-I2ZXrXeOc0KrCvC7swqtIFXFN+rbjnC7b2T943tvemIOVNl+XP8YnA9UVwqFhzzLClnSA60KR/qEjLpXzs73Qg==",
       "dependencies": [
-        "@conventional-changelog/git-client@1.0.1_conventional-commits-parser@6.0.0",
+        "@conventional-changelog/git-client@1.0.1_conventional-commits-parser@6.1.0",
         "meow"
       ]
     },
-    "git-semver-tags@8.0.0_conventional-commits-parser@6.0.0": {
+    "git-semver-tags@8.0.0_conventional-commits-parser@6.1.0": {
       "integrity": "sha512-N7YRIklvPH3wYWAR2vysaqGLPRcpwQ0GKdlqTiVN5w1UmCdaeY3K8s6DMKRCh54DDdzyt/OAB6C8jgVtb7Y2Fg==",
       "dependencies": [
-        "@conventional-changelog/git-client@1.0.1_conventional-commits-parser@6.0.0",
+        "@conventional-changelog/git-client@1.0.1_conventional-commits-parser@6.1.0",
         "meow"
       ]
     },
@@ -418,8 +408,8 @@
         "unicorn-magic"
       ]
     },
-    "semver@7.6.3": {
-      "integrity": "sha512-oVekP1cKtI+CTDvHWYFUcMtsK/00wmAEfyqKfNdARm8u1wNVhSgaX7A8d4UuIlUI5e84iEwOhs7ZPYRmzU9U6A=="
+    "semver@7.7.1": {
+      "integrity": "sha512-hlq8tAfn0m/61p4BVRcPzIGr6LKiMwo4VM6dGi6pt4qcRkmNzTcWq6eCEjEh+qXjkMDvPlOFFSGwQjoEa6gyMA=="
     },
     "simple-git@3.27.0": {
       "integrity": "sha512-ivHoFS9Yi9GY49ogc6/YAi3Fl9ROnF4VyubNylgCkA+RVqLaKWnDSzXOVzya8csELIaWaYNutsEuAhZrtOjozA==",
@@ -452,8 +442,8 @@
     "spdx-license-ids@3.0.21": {
       "integrity": "sha512-Bvg/8F5XephndSK3JffaRqdT+gyhfqIPwDHpX80tJrF8QQRYMo8sNMeaZ2Dp5+jhwKnUmIOyFFQfHRkjJm5nXg=="
     },
-    "type-fest@4.34.1": {
-      "integrity": "sha512-6kSc32kT0rbwxD6QL1CYe8IqdzN/J/ILMrNK+HMQCKH3insCDRY/3ITb0vcBss0a3t72fzh2YSzj8ko1HgwT3g=="
+    "type-fest@4.36.0": {
+      "integrity": "sha512-3T/PUdKTCnkUmhQU6FFJEHsLwadsRegktX3TNHk+2JJB9HlA8gp1/VXblXVDI93kSnXF2rdPx0GMbHtJIV2LPg=="
     },
     "uglify-js@3.19.3": {
       "integrity": "sha512-v3Xu+yuwBXisp6QYTcH4UbH+xYJXqnq2m/LtQVWKWzYc1iehYnLixoQDN9FH6/j9/oybfd6W9Ghwkl8+UMKTKQ=="
