@@ -1045,3 +1045,53 @@ Deno.test("custom log formatter", async (t) => {
     cleanupTest(consoleLogSpy);
   });
 });
+
+// I'm not sure how valuable these tests are... but seeing the benchmarks for
+// other loggers (e.g. https://github.com/pinojs/pino/blob/main/docs/benchmarks.md )
+// made me wonder if I had missed something.
+// It looks like this is much faster?
+Deno.test("latency evaluations", async (t) => {
+  await t.step("should add less than 1ms to write 10 logs", () => {
+    const logger = new Logger();
+    const start = performance.now();
+    for (let i = 0; i < 10; i++) {
+      logger.info("test.latency", "test latency message");
+    }
+    const end = performance.now();
+    const duration = end - start;
+    assertLessOrEqual(duration, 1);
+  });
+
+  await t.step("should add less than 5ms to write 100 logs", () => {
+    const logger = new Logger();
+    const start = performance.now();
+    for (let i = 0; i < 100; i++) {
+      logger.info("test.latency", "test latency message");
+    }
+    const end = performance.now();
+    const duration = end - start;
+    assertLessOrEqual(duration, 5);
+  });
+
+  await t.step(
+    "should add less than 25ms to write 1000 logs with context",
+    () => {
+      const logger = new Logger();
+      const context = {
+        nested: Object.fromEntries(
+          Array.from({ length: 10 }, () => [
+            crypto.randomUUID(),
+            crypto.randomUUID(),
+          ]),
+        ),
+      };
+      const start = performance.now();
+      for (let i = 0; i < 1000; i++) {
+        logger.info("test.latency", "test latency message", context);
+      }
+      const end = performance.now();
+      const duration = end - start;
+      assertLessOrEqual(duration, 25);
+    },
+  );
+});
