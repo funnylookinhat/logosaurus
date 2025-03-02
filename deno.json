@@ -24,7 +24,8 @@
     "include": [
       "mod.ts",
       "LICENSE",
-      "README.md"
+      "README.md",
+      "cli/pretty-print.ts"
     ]
   }
 }
