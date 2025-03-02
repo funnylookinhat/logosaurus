@@ -1,6 +1,6 @@
 {
   "name": "@funnylookinhat/logosaurus",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "exports": "./mod.ts",
   "tasks": {
     "generate-release": "deno run --allow-all scripts/generate-release.ts",
