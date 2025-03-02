@@ -1051,6 +1051,9 @@ Deno.test("custom log formatter", async (t) => {
 // made me wonder if I had missed something.
 // It looks like this is much faster?
 Deno.test("latency evaluations", async (t) => {
+  // For these tests - we don't want to spam the console.
+  const consoleLog = console.log;
+  console.log = (..._args: string[]) => {};
   await t.step("should add less than 1ms to write 10 logs", () => {
     const logger = new Logger();
     const start = performance.now();
@@ -1094,4 +1097,5 @@ Deno.test("latency evaluations", async (t) => {
       assertLessOrEqual(duration, 25);
     },
   );
+  console.log = consoleLog;
 });
