@@ -2,7 +2,7 @@
   "name": "@funnylookinhat/logosaurus",
   "version": "1.1.0",
   "exports": {
-    "./": "./mod.ts",
+    ".": "./mod.ts",
     "./cli/pretty-print.ts": "./cli/pretty-print.ts"
   },
   "tasks": {
