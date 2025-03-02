@@ -1,7 +1,10 @@
 {
   "name": "@funnylookinhat/logosaurus",
   "version": "1.1.0",
-  "exports": "./mod.ts",
+  "exports": {
+    "./": "./mod.ts",
+    "./cli/pretty-print.ts": "./cli/pretty-print.ts"
+  },
   "tasks": {
     "generate-release": "deno run --allow-all scripts/generate-release.ts",
     "test": "deno test"
