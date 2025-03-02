@@ -5,6 +5,7 @@ import {
   parse,
   type ReleaseType,
 } from "jsr:@std/semver";
+import { simpleGit } from "simple-git";
 import conventionalChangelog from "npm:conventional-changelog";
 import { Bumper } from "npm:conventional-recommended-bump";
 import { resolve } from "jsr:@std/path/resolve";
@@ -127,6 +128,8 @@ if (import.meta.dirname === undefined) {
   );
 }
 
+const git = simpleGit();
+
 // Begin Work
 const flags = parseArgs(Deno.args, {
   string: ["version"],
@@ -149,50 +152,41 @@ if (GITHUB_REPOSITORY === undefined || GITHUB_REPOSITORY.length === 0) {
 }
 
 // Ensure working tree is clean.
-const gitStatusOutput = runCmd("git", ["status", "--porcelain"]);
+const gitStatusOutput = await git.status(["--porcelain"]);
 
 if (
-  gitStatusOutput.stdout.length !== 0 &&
+  !gitStatusOutput.isClean() &&
   // This is provided mostly for testing purposes.  There may be cases where
   // useful in extraordinary settings.  I'm leaving it undocumented for that
   // reason.
   Deno.env.get("ALLOW_UNCLEAN_TREE") !== "ENABLED"
 ) {
-  const gitDiffOutput = runCmd("git", ["--no-pager", "diff"]);
-
-  const gitDiffParsedOutput = parseCommandOutput(gitDiffOutput);
-
-  const { stdout } = parseCommandOutput(gitStatusOutput);
+  // TODO - Consider summarizing gitStatusOutput here
   logAndExit(
     `Working tree is not clean.  Commit or stash changes before running.`,
-    stdout,
-    gitDiffParsedOutput.stdout,
-    gitDiffParsedOutput.stderr,
   );
 }
 
-const gitConfigUserNameOutput = runCmd("git", ["config", "user.name"]);
-const userNameOutput = parseCommandOutput(gitConfigUserNameOutput);
+const gitConfig = await git.listConfig();
+const userName = gitConfig.all["user.name"];
 
-if (userNameOutput.stdout.length === 0) {
-  runCmd("git", [
-    "config",
-    "--global",
-    "user.name",
-    `"github-actions[bot]"`,
-  ]);
+if (!userName?.length) {
+  console.log(`Setting git config user.name to github-actions[bot]`);
+  await git.addConfig("user.name", "github-actions[bot]", false, "global");
 }
 
-const gitConfigUserEmailOutput = runCmd("git", ["config", "user.email"]);
-const userEmailOutput = parseCommandOutput(gitConfigUserEmailOutput);
+const userEmail = gitConfig.all["user.email"];
 
-if (userEmailOutput.stdout.length === 0) {
-  runCmd("git", [
-    "config",
-    "--global",
-    "user.name",
-    `"github-actions[bot]@users.noreply.github.com"`,
-  ]);
+if (!userEmail?.length) {
+  console.log(
+    `Setting git config user.email to github-actions[bot]@users.noreply.github.com`,
+  );
+  await git.addConfig(
+    "user.email",
+    "github-actions[bot]@users.noreply.github.com",
+    false,
+    "global",
+  );
 }
 
 // TODO - Determine if this is necessary.
@@ -325,47 +319,40 @@ if (!denoFmtOutput.success) {
 console.log(`Updated deno.json version to ${newVersion}.`);
 
 // Add deno.json to git commit
-const gitAddOutput = runCmd("git", ["add", "deno.json"]);
-
-if (!gitAddOutput.success) {
-  const { stdout, stderr } = parseCommandOutput(gitAddOutput);
-  logAndExit(`Could not add deno.json to git`, stdout, stderr);
+try {
+  await git.add("deno.json");
+} catch (error) {
+  isError(error);
+  logAndExit(`Could not add deno.json to git.`, error.message);
 }
 
 // Commit changes
-const gitCommitOutput = runCmd("git", [
-  "commit",
-  "-m",
-  `chore: Release Version ${newVersion}`,
-]);
-
-if (!gitCommitOutput.success) {
-  const { stdout, stderr } = parseCommandOutput(gitCommitOutput);
-  logAndExit(`Could not commit to git`, stdout, stderr);
+try {
+  await git.commit("chore: Release Version ${newVersion}");
+} catch (error) {
+  isError(error);
+  logAndExit(`Could not commit to git.`, error.message);
 }
 
 // Create Tag
-const gitTagOutput = runCmd("git", [
-  "tag",
-  "-a",
-  `${newVersion}`,
-  "-m",
-  // Remove leading header with link to changes.  We'll save that for the
-  // release where it's more meaningful.
-  changelog.split("\n").slice(1).join("\n"),
-]);
-
-if (!gitTagOutput.success) {
-  const { stdout, stderr } = parseCommandOutput(gitTagOutput);
-  logAndExit(`Could not add tag to git`, stdout, stderr);
+try {
+  await git.tag([
+    "-a",
+    `${newVersion}`,
+    "-m",
+    changelog.split("\n").slice(1).join("\n"),
+  ]);
+} catch (error) {
+  isError(error);
+  logAndExit(`Could not create tag.`, error.message);
 }
 
 // Push changes to git
-const gitPushOutput = runCmd("git", ["push", "--follow-tags"]);
-
-if (!gitPushOutput.success) {
-  const { stdout, stderr } = parseCommandOutput(gitPushOutput);
-  logAndExit(`Could not push changes to git`, stdout, stderr);
+try {
+  await git.push(["--follow-tags"]);
+} catch (error) {
+  isError(error);
+  logAndExit(`Could not push changes to git.`, error.message);
 }
 
 // Generate Release
