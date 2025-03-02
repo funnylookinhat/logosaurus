@@ -1,6 +1,6 @@
 {
   "name": "@funnylookinhat/logosaurus",
-  "version": "1.1.1",
+  "version": "1.1.2",
   "exports": {
     ".": "./mod.ts",
     "./cli/pretty-print.ts": "./cli/pretty-print.ts"
