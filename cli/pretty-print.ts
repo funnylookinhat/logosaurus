@@ -2,6 +2,7 @@ import type { LogObject } from "../mod.ts";
 import { iterateReader } from "@std/io/iterate-reader";
 import {
   blue,
+  cyan,
   gray,
   green,
   magenta,
@@ -57,7 +58,8 @@ function prettyPrintLogObject(line: string) {
           message += magenta("FATAL > ");
           break;
       }
-      message += white(json.message);
+
+      message += `[${cyan(json.namespace)}] ${white(json.message)}`;
       message += "\n";
       message += gray(JSON.stringify(json.context, null, 2));
       console.log(message);
