@@ -4,13 +4,13 @@ import {
   increment,
   parse,
   type ReleaseType,
-} from "jsr:@std/semver";
+} from "@std/semver";
 import { simpleGit } from "simple-git";
 import conventionalChangelog from "conventional-changelog";
 import { Bumper } from "conventional-recommended-bump";
-import { resolve } from "jsr:@std/path/resolve";
+import { resolve } from "@std/path/resolve";
 import { Octokit } from "@octokit/rest";
-import { parseArgs } from "jsr:@std/cli/parse-args";
+import { parseArgs } from "@std/cli/parse-args";
 
 interface DenoConfig {
   version: string;
