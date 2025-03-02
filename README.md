@@ -191,7 +191,23 @@ Here are suggested use cases for each log level:
 
 ### Parsing Logs for Local Development
 
-_Coming soon..._
-
-Logosaurus will include a tool to parse the logs it outputs into a more
+Logosaurus inccludes include a tool to parse the logs it outputs into a more
 human-readable format for local development.
+
+To use it - you can pipe your command to the `pretty-print` tool.
+
+```bash
+deno task your-app | deno run jsr:@funnylookinhat/logosaurus/cli/pretty-print.ts
+```
+
+Additionally, you can install the `pretty-print` tool globally.
+
+```bash
+deno install -n logosaurus-pretty-print jsr:@funnylookinhat/logosaurus/cli/pretty-print.ts
+```
+
+And then you can use it like this:
+
+```bash
+deno task your-app | logosaurus-pretty-print
+```
