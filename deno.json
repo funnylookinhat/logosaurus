@@ -13,7 +13,8 @@
     "@std/semver": "jsr:@std/semver@^1.0.4",
     "@std/testing": "jsr:@std/testing@^1.0.9",
     "conventional-changelog": "npm:conventional-changelog@^6.0.0",
-    "conventional-recommended-bump": "npm:conventional-recommended-bump@^11.0.0"
+    "conventional-recommended-bump": "npm:conventional-recommended-bump@^11.0.0",
+    "simple-git": "npm:simple-git@^3.27.0"
   },
   "license": "MIT",
   "publish": {
