@@ -203,7 +203,7 @@ deno task your-app | deno run jsr:@funnylookinhat/logosaurus/cli/pretty-print.ts
 Additionally, you can install the `pretty-print` tool globally.
 
 ```bash
-deno install -n logosaurus-pretty-print jsr:@funnylookinhat/logosaurus/cli/pretty-print.ts
+deno install --global -n logosaurus-pretty-print jsr:@funnylookinhat/logosaurus/cli/pretty-print.ts
 ```
 
 And then you can use it like this:
